@@ -24,9 +24,9 @@ io.use((socket, next) => {
   const id = 123456;
 
   if (token == undefined) {
-    console.log("fuck u");
+    console.log("love u");
   } else if (token != id) {
-    console.log("fuck u two");
+    console.log("love u too");
   } else {
     next();
   }

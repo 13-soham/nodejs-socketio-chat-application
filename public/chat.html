@@ -4,46 +4,41 @@
 <head>
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/fontawesome.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" />
   <link rel="stylesheet" href="css/styles.css" />
-  <title>Chat Application</title>
+  <title>Chat Room</title>
 </head>
 
-<body class="rtl bg-info">
-  <div class="container-fluid bg-info">
-    <div class="bg-primary p-1 w-100 border border-info" style="border-radius: 1em">
-      <ul id="online-users-list" class="
-                        list-group list-group-horizontal list-unstyled
-                        overflow-auto
-                    "></ul>
+<body class="chat-body">
+  <div class="chat-wrapper">
+    <!-- Header -->
+    <div class="chat-header">
+      <ul id="online-users-list" class="user-list"></ul>
     </div>
-    <div class="row">
-      <div id="chatContainer" class="col-12 bg-info" style="position: absolute; height: 90%; overflow-y: scroll">
-        <ul id="chat-box" class="mt-2 list-unstyled"></ul>
-        <div id="feedback"></div>
-        <div class="d-flex justify-content-center fixed-bottom">
-          <form id="chatForm" class="form-group w-50 mb-0">
-            <div class="input-group">
-              <input type="text" name="message" id="messageInput" class="form-control" placeholder="Message text..." />
-              <div class="input-group-prepend">
-                <button type="submit" class="form-control btn btn-primary">
-                  Send Message
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
+
+    <!-- Chat box -->
+    <div id="chatContainer" class="chat-box">
+      <ul id="chat-box" class="chat-messages list-unstyled"></ul>
+      <div id="feedback" class="feedback-text"></div>
+    </div>
+
+    <!-- Input -->
+    <div class="chat-input-wrapper">
+      <form id="chatForm" class="d-flex">
+        <input type="text" name="message" id="messageInput" class="form-control chat-input" placeholder="Type a message..." />
+        <button type="submit" class="btn btn-success send-btn">Send</button>
+      </form>
     </div>
   </div>
+
+  <!-- Private Chat Modal -->
   <div class="modal fade" id="pvChat" tabindex="-1" aria-labelledby="pvChatModal" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="modalTitle"></h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
+            <span>&times;</span>
           </button>
         </div>
         <div class="modal-body">
@@ -52,17 +47,17 @@
         <div class="modal-body">
           <form id="pvChatForm">
             <div class="form-group">
-              <label for="message-text" class="col-form-label">Message:</label>
+              <label for="message-text">Message:</label>
               <textarea class="form-control" id="pvMessageInput"></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">
-              Send Message
-            </button>
+            <button type="submit" class="btn btn-success">Send</button>
           </form>
         </div>
       </div>
     </div>
   </div>
+
+  <!-- Scripts -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.min.js"></script>

@@ -52,28 +52,15 @@ pvChatForm.addEventListener("submit", (e) => {
 // Listening
 chatNamespace.on("chat message", (data) => {
   feedback.innerHTML = "";
-  chatBox.innerHTML += `<li class="alert alert-light">
-                            <span
-                                class="text-dark font-weight-normal"
-                                style="font-size: 13pt"
-                                >${data.nickname}
-                                
-                            <span
-                                class="
-                                    text-muted
-                                    font-italic font-weight-light
-                                    m-2
-                                "
-                                style="font-size: 9pt"
-                                >${data.date} hours</span
-                            >
-                            <p
-                                class="alert alert-info mt-2"
-                                style="font-family: persian01"
-                            >
-                            ${data.message}
-                            </p>
-                            </li>`;
+  chatBox.innerHTML += `<li class="chat-message ${
+    data.nickname === nickname ? "sent" : "received"
+  }">
+                          <div class="message-bubble">
+                            <span class="message-sender">${data.nickname}</span>
+                            <span class="message-time">${data.date}</span>
+                            <p class="message-text">${data.message}</p>
+                          </div>
+                        </li>`;
   chatContainer.scrollTop =
     chatContainer.scrollHeight - chatContainer.clientHeight;
 });
@@ -84,7 +71,7 @@ messageInput.addEventListener("keypress", (e) => {
 
 chatNamespace.on("typing", (data) => {
   if (roomNumber == data.roomNumber) {
-    feedback.innerHTML = data;
+    feedback.innerHTML = `<small class="text-muted">typing...</small>`;
   }
 });
 
@@ -93,7 +80,7 @@ chatNamespace.on("pvChat", (data) => {
   socketId = data.from;
   modalTitle.innerHTML = "Received message from " + data.name;
   pvChatMessage.style.display = "block";
-  pvChatMessage.innerHTML = data.name + " : " + data.message;
+  pvChatMessage.innerHTML = `${data.name} : ${data.message}`;
 });
 
 chatNamespace.on("online", (data) => {
@@ -102,11 +89,11 @@ chatNamespace.on("online", (data) => {
     if (roomNumber == user.roomNumber) {
       onlineUsers.innerHTML += `
             <li>
-            <button type="button" class="btn btn-light mx-2 p-2" data-toggle="modal" data-target="#pvChat" data-id=${
+            <button type="button" class="btn btn-light mx-2 p-2 user-btn" data-toggle="modal" data-target="#pvChat" data-id=${
               user.id
             } data-client=${user.name}
             ${user.id === chatNamespace.id ? "disabled" : ""}>
-            ${user.name}
+            <span class="user-avatar">${user.name[0]}</span> ${user.name}
             <span class="badge badge-success"> </span>
             </buton>
             </li>
@@ -115,7 +102,7 @@ chatNamespace.on("online", (data) => {
   });
 });
 
-// jQuery
+// jQuery for modal interaction
 $("#pvChat").on("show.bs.modal", function (e) {
   var button = $(e.relatedTarget);
   var user = button.data("client");
