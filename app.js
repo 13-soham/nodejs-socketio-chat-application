@@ -1,5 +1,4 @@
 const http = require("http");
-
 const express = require("express");
 const { Server } = require("socket.io");
 
@@ -7,7 +6,6 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-// Static Folder
 app.use(express.static("public"));
 
 const PORT = process.env.PORT || 3000;
@@ -16,7 +14,6 @@ server.listen(PORT, () => {
   console.log(`Server started on 3000`);
 });
 
-// Setup Websocket
 let users = [];
 
 io.use((socket, next) => {
@@ -36,8 +33,6 @@ const chatNameSpace = io.of("/chat");
 
 chatNameSpace.on("connection", (socket) => {
   console.log(`User Connected: ${socket.id}`);
-
-  // Listening
   socket.on("disconnect", (data) => {
     const index = users.findIndex((s) => s.id == socket.id);
     if (index != -1) users.splice(index, 1);
